@@ -12,7 +12,7 @@ const Login = () => {
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -24,12 +24,16 @@ const Login = () => {
     try {
       const res = await axios.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-      navigate("/")
+      navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
 
+  const handleForgotPasswordClick = (e) => {
+    e.preventDefault();
+    // handle forgot password logic here
+  };
 
   return (
     <div className="login">
@@ -51,6 +55,13 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
+        <button
+          disabled={loading}
+          onClick={handleForgotPasswordClick}
+          className="lButton"
+        >
+          Forgot Password
+        </button>
         {error && <span>{error.message}</span>}
       </div>
     </div>
@@ -58,3 +69,4 @@ const Login = () => {
 };
 
 export default Login;
+
